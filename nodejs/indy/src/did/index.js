@@ -105,8 +105,8 @@ async function setupSteward() {
 }
 
 async function issueGovernmentIdCredential() {
-    let schemaName = 'Government-ID';
-    let schemaVersion = '1.1';
+    let schemaName = 'Person-ID';
+    let schemaVersion = '1.0';
     let signatureType = 'CL';
     let govIdSchema;
     let govIdSchemaId = `${stewardDid}:2:${schemaName}:${schemaVersion}`;
@@ -115,8 +115,8 @@ async function issueGovernmentIdCredential() {
     } catch(e) {
         [govIdSchemaId, govIdSchema] = await sdk.issuerCreateSchema(stewardDid, schemaName, schemaVersion, [
             'name',
-            'email',
-            'tax_id'
+            'address',
+            'day_of_birth'
         ]);
 
         await indy.issuer.sendSchema(await indy.pool.get(), stewardWallet, stewardDid, govIdSchema);
@@ -136,8 +136,8 @@ async function issueGovernmentIdCredential() {
 
     let govIdValues = {
         name: {"raw": config.userInformation.name, "encoded": indy.credentials.encode(config.userInformation.name)},
-        email: {"raw": config.userInformation.email, "encoded": indy.credentials.encode(config.userInformation.email)},
-        tax_id: {"raw": config.userInformation.tax_id, "encoded": indy.credentials.encode(config.userInformation.tax_id)},
+        address: {"raw": config.userInformation.address, "encoded": indy.credentials.encode(config.userInformation.address)},
+        day_of_birth: {"raw": config.userInformation.day_of_birth, "encoded": indy.credentials.encode(config.userInformation.day_of_birth)},
     };
 
     let [govIdCredential] = await sdk.issuerCreateCredential(stewardWallet, govIdCredOffer, govIdCredRequest, govIdValues);

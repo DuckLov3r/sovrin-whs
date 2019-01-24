@@ -33,7 +33,7 @@ services:
     environment:
       - PORT=3000
       - NAME=Alice
-      - EMAIL=alice@faber.edu
+      - ADDRESS=Indystreet 123
       - PASSWORD=123
       - USERNAME=alice
       - PUBLIC_DID_ENDPOINT=173.17.0.150:3000

@@ -20,8 +20,8 @@ const config = {
     // This information is used to issue your "Government ID"
     userInformation: {
         name: process.env.NAME || 'Alice Garcia',
-        email: process.env.EMAIL || 'alice@faber.edu',
-        tax_id: process.env.TAX_ID || '123-45-6789',
+        address: process.env.ADDRESS || 'Sovrinstreet 123',
+        day_of_birth: process.env.DAY_OF_BIRTH || '10-11-1993',
         username: process.env.USERNAME || 'alice',
         password: process.env.PASSWORD || '123'
     },
