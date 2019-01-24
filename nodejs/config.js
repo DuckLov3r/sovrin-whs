@@ -19,9 +19,11 @@ const config = {
 
     // This information is used to issue your "Government ID"
     userInformation: {
-        name: process.env.NAME || 'Alice Garcia',
-        address: process.env.ADDRESS || 'Sovrinstreet 123',
-        day_of_birth: process.env.DAY_OF_BIRTH || '10-11-1993',
+        vorname: process.env.VORNAME || 'BUGvorname',
+        name: process.env.NAME || 'buGnachname',
+        geburtstag: process.env.GEBURTSTAG || 'BUGgeburtstag',
+        geburtsort: process.env.GEBURTSORT || 'BUGgeburtstort',
+        anschrift: process.env.ANSCHRIFT || 'BUGanschrift',
         username: process.env.USERNAME || 'alice',
         password: process.env.PASSWORD || '123'
     },

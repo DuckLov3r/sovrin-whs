@@ -43,7 +43,7 @@ router.get('/', auth.isLoggedIn, async function (req, res) {
         credentialDefinitions: await indy.did.getEndpointDidAttribute('credential_definitions'),
         endpointDid: await indy.did.getEndpointDid(),
         proofRequests: proofRequests,
-        name: config.userInformation.name
+        name: config.userInformation.vorname
     });
 
     for(let prKey of Object.keys(proofRequests)) {
@@ -53,7 +53,7 @@ router.get('/', auth.isLoggedIn, async function (req, res) {
 
 router.get('/login', function(req, res) {
    res.render('login', {
-       name: config.userInformation.name
+       name: config.userInformation.vorname
    });
 });
 
