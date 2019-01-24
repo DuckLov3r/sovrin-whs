@@ -138,11 +138,11 @@ async function issueGovernmentIdCredential() {
     console.log(config.userInformation.address);
 
     let govIdValues = {
-        name: {"raw": config.userInformation.name, "encoded": indy.credentials.encode(config.userInformation.name)},
-        vorname: {"raw": config.userInformation.vorname, "encoded": indy.credentials.encode(config.userInformation.vorname)},       
-        geburtstag: {"raw": config.userInformation.geburtstag, "encoded": indy.credentials.encode(config.userInformation.geburtstag)},
-        geburtsort: {"raw": config.userInformation.geburtsort, "encoded": indy.credentials.encode(config.userInformation.geburtsort)},
-        anschrift: {"raw": config.userInformation.anschrift, "encoded": indy.credentials.encode(config.userInformation.anschrift)}
+            a_name: { "raw": config.userInformation.name, "encoded": indy.credentials.encode(config.userInformation.name) },
+            b_vorname: {"raw": config.userInformation.vorname, "encoded": indy.credentials.encode(config.userInformation.vorname)},       
+            c_geburtstag: {"raw": config.userInformation.geburtstag, "encoded": indy.credentials.encode(config.userInformation.geburtstag)},
+            d_geburtsort: {"raw": config.userInformation.geburtsort, "encoded": indy.credentials.encode(config.userInformation.geburtsort)},
+            e_anschrift: { "raw": config.userInformation.anschrift, "encoded": indy.credentials.encode(config.userInformation.anschrift) }
     };
 
     let [govIdCredential] = await sdk.issuerCreateCredential(stewardWallet, govIdCredOffer, govIdCredRequest, govIdValues);
