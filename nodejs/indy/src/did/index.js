@@ -138,7 +138,7 @@ async function issueGovernmentIdCredential() {
     console.log(config.userInformation.address);
 
     let govIdValues = {
-            a_name: { "raw": config.userInformation.name, "encoded": indy.credentials.encode(config.userInformation.name) },
+            name: { "raw": config.userInformation.name, "encoded": indy.credentials.encode(config.userInformation.name) },
             b_vorname: {"raw": config.userInformation.vorname, "encoded": indy.credentials.encode(config.userInformation.vorname)},       
             c_geburtstag: {"raw": config.userInformation.geburtstag, "encoded": indy.credentials.encode(config.userInformation.geburtstag)},
             d_geburtsort: {"raw": config.userInformation.geburtsort, "encoded": indy.credentials.encode(config.userInformation.geburtsort)},
