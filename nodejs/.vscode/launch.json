@@ -1,0 +1,59 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Docker: Attach to indy-agent-Alice",
+            "type": "node",
+            "request": "attach",
+            "port": 9229,
+            "address": "localhost",
+            "localRoot": "${workspaceFolder}/",
+            "remoteRoot": "/~/",
+            "protocol": "inspector"
+        },
+        {
+            "name": "Docker: Attach to indy-agent-Bob",
+            "type": "node",
+            "request": "attach",
+            "port": 9230,
+            "address": "localhost",
+            "localRoot": "${workspaceFolder}/",
+            "remoteRoot": "/~/",
+            "protocol": "inspector"
+        },
+        {
+            "name": "Docker: Attach to indy-agent-Faber",
+            "type": "node",
+            "request": "attach",
+            "port": 9231,
+            "address": "localhost",
+            "localRoot": "${workspaceFolder}/",
+            "remoteRoot": "/~/",
+            "protocol": "inspector"
+        },
+        {
+            "name": "Docker: Attach to indy-agent-Acme",
+            "type": "node",
+            "request": "attach",
+            "port": 9232,
+            "address": "localhost",
+            "localRoot": "${workspaceFolder}/",
+            "remoteRoot": "/~/",
+            "protocol": "inspector"
+        },
+        {
+            "name": "Docker: Attach to indy-agent-Thrift",
+            "type": "node",
+            "request": "attach",
+            "port": 9233,
+            "address": "localhost",
+            "localRoot": "${workspaceFolder}/",
+            "remoteRoot": "/~/",
+            "protocol": "inspector"
+        }
+    ]
+}
