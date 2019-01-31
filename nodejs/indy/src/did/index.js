@@ -8,6 +8,7 @@ let stewardDid;
 let stewardKey;
 let stewardWallet;
 let personIdCredDefId;
+let schoolIdCredDefId;
 
 exports.createDid = async function (didInfoParam) {
     let didInfo = didInfoParam || {};
@@ -45,7 +46,8 @@ exports.createEndpointDid = async function () {
     await indy.pool.setEndpointForDid(endpointDid, config.endpointDidEndpoint);
     await indy.crypto.createMasterSecret();
 
-    await issuePersonernmentIdCredential();
+    await issuePersonIdCredential();
+    await issueSchoolIdCredential();
 };
 
 exports.setEndpointDidAttribute = async function (attribute, item) {
@@ -104,7 +106,7 @@ async function setupSteward() {
 
 }
 
-async function issuePersonernmentIdCredential() {
+async function issuePersonIdCredential() {
     let schemaName = 'Person-ID';
     let schemaVersion = '1.2';
     let signatureType = 'CL';
@@ -138,8 +140,6 @@ async function issuePersonernmentIdCredential() {
     let personIdCredOffer = await sdk.issuerCreateCredentialOffer(stewardWallet, personIdCredDefId);
     let [personIdCredRequest, personIdRequestMetadata] = await sdk.proverCreateCredentialReq(await indy.wallet.get(), endpointDid, personIdCredOffer, personIdCredDef, await indy.did.getEndpointDidAttribute('master_secret_id'));
 
-    console.log("???????????????????????????????????????");
-    console.log(config.userInformation.address);
 
     let personIdValues = {
             a_Name: { "raw": config.userInformation.name, "encoded": indy.credentials.encode(config.userInformation.name) },
@@ -152,7 +152,55 @@ async function issuePersonernmentIdCredential() {
     let [personIdCredential] = await sdk.issuerCreateCredential(stewardWallet, personIdCredOffer, personIdCredRequest, personIdValues);
     let res = await sdk.proverStoreCredential(await indy.wallet.get(), null, personIdRequestMetadata, personIdCredential, personIdCredDef);
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+async function issueSchoolIdCredential() {
+    let schemaName = 'School-ID';
+    let schemaVersion = '1.0';
+    let signatureType = 'CL';
+    let schoolIdSchema;
+    let schoolIdSchemaId = `${stewardDid}:2:${schemaName}:${schemaVersion}`;
+    
 
+    try {
+        schoolIdSchema = await indy.issuer.getSchema(schoolIdSchemaId);
+    } catch(e) {
+        [schoolIdSchemaId, schoolIdSchema] = await sdk.issuerCreateSchema(stewardDid, schemaName, schemaVersion, [
+            'a_Name',
+            'b_Vorname',
+            'c_Geburtstag',
+            'd_Schule',
+            'e_Abschluss',
+            'f_Durchschnitt'
+        ]);
+        await indy.issuer.sendSchema(await indy.pool.get(), stewardWallet, stewardDid, schoolIdSchema);
+        schoolIdSchema = await indy.issuer.getSchema(schoolIdSchemaId);
+    }
+    console.log(JSON.stringify(schoolIdSchema));
+
+
+    let schoolIdCredDef;
+    [schoolIdCredDefId, schoolIdCredDef] = await sdk.issuerCreateAndStoreCredentialDef(stewardWallet, stewardDid, schoolIdSchema, 'SID', signatureType, '{"support_revocation": false}');
+    await indy.issuer.sendCredDef(await indy.pool.get(), stewardWallet, stewardDid, schoolIdCredDef);
+    console.log("This is the schoolIdCredDefId: " + schoolIdCredDefId);
+    exports.setEndpointDidAttribute('SIDCredDefId', schoolIdCredDefId);
+
+
+    let schoolIdCredOffer = await sdk.issuerCreateCredentialOffer(stewardWallet, schoolIdCredDefId);
+    let [schoolIdCredRequest, schoolIdRequestMetadata] = await sdk.proverCreateCredentialReq(await indy.wallet.get(), endpointDid, schoolIdCredOffer, schoolIdCredDef, await indy.did.getEndpointDidAttribute('master_secret_id'));
+
+    let schoolIdValues = {
+            a_Name: { "raw": config.userInformation.name, "encoded": indy.credentials.encode(config.userInformation.name) },
+            b_Vorname: {"raw": config.userInformation.vorname, "encoded": indy.credentials.encode(config.userInformation.vorname)},       
+            c_Geburtstag: {"raw": config.userInformation.geburtstag, "encoded": indy.credentials.encode(config.userInformation.geburtstag)},
+            d_Schule: {"raw": config.userInformation.schule, "encoded": indy.credentials.encode(config.userInformation.schule)},
+            e_Abschluss: { "raw": config.userInformation.abschluss, "encoded": indy.credentials.encode(config.userInformation.abschluss)},
+            f_Durchschnitt: { "raw": config.userInformation.durchschnitt, "encoded": indy.credentials.encode(config.userInformation.durchschnitt)},
+    };
+
+    let [schoolIdCredential] = await sdk.issuerCreateCredential(stewardWallet, schoolIdCredOffer, schoolIdCredRequest, schoolIdValues);
+    let res = await sdk.proverStoreCredential(await indy.wallet.get(), null, schoolIdRequestMetadata, schoolIdCredential, schoolIdCredDef);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.getPersonIdCredDefId = async function() {
-    return await exports.getEndpointDidAttribute('PIDCredDefId1');
+    return await exports.getEndpointDidAttribute('PIDCredDefId');
 };

@@ -37,7 +37,10 @@ services:
       - NAME=Ducklove
       - GEBURTSTAG=01.11.1990
       - GEBURTSORT=Ducktown
-      - ANSCHRIFT= quackstreet 123
+      - ANSCHRIFT=Quackstreet 123
+      - SCHULE=Entenschule
+      - ABSCHLUSS=Abitur
+      - DURCHSCHNITT=2,1
       - PASSWORD=123
       - USERNAME=alice
       - PUBLIC_DID_ENDPOINT=173.17.0.150:3000

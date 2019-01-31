@@ -24,6 +24,9 @@ const config = {
         geburtstag: process.env.GEBURTSTAG || 'BUGgeburtstag',
         geburtsort: process.env.GEBURTSORT || 'BUGgeburtstort',
         anschrift: process.env.ANSCHRIFT || 'BUGanschrift',
+        schule: process.env.SCHULE || 'BUGschule',
+        abschluss: process.env.ABSCHLUSS || 'BUGabschluss',
+        durchschnitt: process.env.DURCHSCHNITT || 'BUGdurchschnitt',
         username: process.env.USERNAME || 'alice',
         password: process.env.PASSWORD || '123'
     },
