@@ -17,7 +17,7 @@ const config = {
     // Optional: Give your pool config a unique name
     poolName: process.env.POOL_NAME || 'pool1',
 
-    // This information is used to issue your "Government ID"
+    // This information is used to issue your "Person ID"
     userInformation: {
         vorname: process.env.VORNAME || 'BUGvorname',
         name: process.env.NAME || 'buGnachname',

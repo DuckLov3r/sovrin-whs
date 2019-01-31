@@ -7,7 +7,7 @@ let publicVerkey;
 let stewardDid;
 let stewardKey;
 let stewardWallet;
-let govIdCredDefId;
+let personIdCredDefId;
 
 exports.createDid = async function (didInfoParam) {
     let didInfo = didInfoParam || {};
@@ -45,7 +45,7 @@ exports.createEndpointDid = async function () {
     await indy.pool.setEndpointForDid(endpointDid, config.endpointDidEndpoint);
     await indy.crypto.createMasterSecret();
 
-    await issueGovernmentIdCredential();
+    await issuePersonernmentIdCredential();
 };
 
 exports.setEndpointDidAttribute = async function (attribute, item) {
@@ -104,51 +104,55 @@ async function setupSteward() {
 
 }
 
-async function issueGovernmentIdCredential() {
+async function issuePersonernmentIdCredential() {
     let schemaName = 'Person-ID';
-    let schemaVersion = '1.1';
+    let schemaVersion = '1.2';
     let signatureType = 'CL';
-    let govIdSchema;
-    let govIdSchemaId = `${stewardDid}:2:${schemaName}:${schemaVersion}`;
+    let personIdSchema;
+    let personIdSchemaId = `${stewardDid}:2:${schemaName}:${schemaVersion}`;
+    
+
     try {
-        govIdSchema = await indy.issuer.getSchema(govIdSchemaId);
+        personIdSchema = await indy.issuer.getSchema(personIdSchemaId);
     } catch(e) {
-        [govIdSchemaId, govIdSchema] = await sdk.issuerCreateSchema(stewardDid, schemaName, schemaVersion, [
-            'name',
-            'vorname',
-            'geburtstag',
-            'geburtsort',
-            'anschrift'
+        [personIdSchemaId, personIdSchema] = await sdk.issuerCreateSchema(stewardDid, schemaName, schemaVersion, [
+            'a_Name',
+            'b_Vorname',
+            'c_Geburtstag',
+            'd_Geburtsort',
+            'e_Anschrift'
         ]);
-        await indy.issuer.sendSchema(await indy.pool.get(), stewardWallet, stewardDid, govIdSchema);
-        govIdSchema = await indy.issuer.getSchema(govIdSchemaId);
+        await indy.issuer.sendSchema(await indy.pool.get(), stewardWallet, stewardDid, personIdSchema);
+        personIdSchema = await indy.issuer.getSchema(personIdSchemaId);
     }
-
-    let govIdCredDef;
-    [govIdCredDefId, govIdCredDef] = await sdk.issuerCreateAndStoreCredentialDef(stewardWallet, stewardDid, govIdSchema, 'PID', signatureType, '{"support_revocation": false}');
-    await indy.issuer.sendCredDef(await indy.pool.get(), stewardWallet, stewardDid, govIdCredDef);
-
-    exports.setEndpointDidAttribute('PIDCredDefId', govIdCredDefId);
+    console.log(JSON.stringify(personIdSchema));
 
 
-    let govIdCredOffer = await sdk.issuerCreateCredentialOffer(stewardWallet, govIdCredDefId);
-    let [govIdCredRequest, govIdRequestMetadata] = await sdk.proverCreateCredentialReq(await indy.wallet.get(), endpointDid, govIdCredOffer, govIdCredDef, await indy.did.getEndpointDidAttribute('master_secret_id'));
+    let personIdCredDef;
+    [personIdCredDefId, personIdCredDef] = await sdk.issuerCreateAndStoreCredentialDef(stewardWallet, stewardDid, personIdSchema, 'PID', signatureType, '{"support_revocation": false}');
+    await indy.issuer.sendCredDef(await indy.pool.get(), stewardWallet, stewardDid, personIdCredDef);
+    console.log("This is the personIdCredDefId" + personIdCredDefId);
+    exports.setEndpointDidAttribute('PIDCredDefId', personIdCredDefId);
+
+
+    let personIdCredOffer = await sdk.issuerCreateCredentialOffer(stewardWallet, personIdCredDefId);
+    let [personIdCredRequest, personIdRequestMetadata] = await sdk.proverCreateCredentialReq(await indy.wallet.get(), endpointDid, personIdCredOffer, personIdCredDef, await indy.did.getEndpointDidAttribute('master_secret_id'));
 
     console.log("???????????????????????????????????????");
     console.log(config.userInformation.address);
 
-    let govIdValues = {
-            name: { "raw": config.userInformation.name, "encoded": indy.credentials.encode(config.userInformation.name) },
-            b_vorname: {"raw": config.userInformation.vorname, "encoded": indy.credentials.encode(config.userInformation.vorname)},       
-            c_geburtstag: {"raw": config.userInformation.geburtstag, "encoded": indy.credentials.encode(config.userInformation.geburtstag)},
-            d_geburtsort: {"raw": config.userInformation.geburtsort, "encoded": indy.credentials.encode(config.userInformation.geburtsort)},
-            e_anschrift: { "raw": config.userInformation.anschrift, "encoded": indy.credentials.encode(config.userInformation.anschrift) }
+    let personIdValues = {
+            a_Name: { "raw": config.userInformation.name, "encoded": indy.credentials.encode(config.userInformation.name) },
+            b_Vorname: {"raw": config.userInformation.vorname, "encoded": indy.credentials.encode(config.userInformation.vorname)},       
+            c_Geburtstag: {"raw": config.userInformation.geburtstag, "encoded": indy.credentials.encode(config.userInformation.geburtstag)},
+            d_Geburtsort: {"raw": config.userInformation.geburtsort, "encoded": indy.credentials.encode(config.userInformation.geburtsort)},
+            e_Anschrift: { "raw": config.userInformation.anschrift, "encoded": indy.credentials.encode(config.userInformation.anschrift) }
     };
 
-    let [govIdCredential] = await sdk.issuerCreateCredential(stewardWallet, govIdCredOffer, govIdCredRequest, govIdValues);
-    let res = await sdk.proverStoreCredential(await indy.wallet.get(), null, govIdRequestMetadata, govIdCredential, govIdCredDef);
+    let [personIdCredential] = await sdk.issuerCreateCredential(stewardWallet, personIdCredOffer, personIdCredRequest, personIdValues);
+    let res = await sdk.proverStoreCredential(await indy.wallet.get(), null, personIdRequestMetadata, personIdCredential, personIdCredDef);
 }
 
-exports.getGovIdCredDefId = async function() {
+exports.getPersonIdCredDefId = async function() {
     return await exports.getEndpointDidAttribute('PIDCredDefId1');
 };

@@ -22,7 +22,7 @@ exports.getProofRequests = async function(force) {
             requested_attributes: {
                 attr1_referent: {
                     name: 'name',
-                    restrictions: [{'cred_def_id': await indy.did.getGovIdCredDefId()}]
+                    restrictions: [{'cred_def_id': await indy.did.getPersonIdCredDefId()}]
                 }
             },
             requested_predicates: {}
