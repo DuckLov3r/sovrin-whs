@@ -34,11 +34,11 @@ services:
     environment:
       - PORT=3000
       - VORNAME=Alice
-      - NAME=Ducklove
+      - NAME=White
       - GEBURTSTAG=01.11.1990
-      - GEBURTSORT=Ducktown
-      - ANSCHRIFT=Quackstreet 123
-      - SCHULE=Entenschule
+      - GEBURTSORT=Wondercity
+      - ANSCHRIFT=Heartstreet 123
+      - SCHULE=Rabbitschool
       - ABSCHLUSS=Abitur
       - DURCHSCHNITT=2,1
       - PASSWORD=123
