@@ -12,7 +12,7 @@
             "port": 9229,
             "address": "localhost",
             "localRoot": "${workspaceFolder}/",
-            "remoteRoot": "/~/",
+            "remoteRoot": "/~/nodejs",
             "protocol": "inspector"
         },
         {
@@ -22,7 +22,7 @@
             "port": 9230,
             "address": "localhost",
             "localRoot": "${workspaceFolder}/",
-            "remoteRoot": "/~/",
+            "remoteRoot": "/~/nodejs",
             "protocol": "inspector"
         },
         {
@@ -32,7 +32,7 @@
             "port": 9231,
             "address": "localhost",
             "localRoot": "${workspaceFolder}/",
-            "remoteRoot": "/~/",
+            "remoteRoot": "/~/nodejs",
             "protocol": "inspector"
         },
         {
@@ -42,7 +42,7 @@
             "port": 9232,
             "address": "localhost",
             "localRoot": "${workspaceFolder}/",
-            "remoteRoot": "/~/",
+            "remoteRoot": "/~/nodejs",
             "protocol": "inspector"
         },
         {
@@ -52,7 +52,7 @@
             "port": 9233,
             "address": "localhost",
             "localRoot": "${workspaceFolder}/",
-            "remoteRoot": "/~/",
+            "remoteRoot": "/~/nodejs",
             "protocol": "inspector"
         }
     ]
