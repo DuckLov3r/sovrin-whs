@@ -109,7 +109,7 @@ exports.acceptResponse = async function (myDid, rawMessage) {
 
 exports.sendAcknowledgement = async function (myDid, theirDid, theirEndpointDid) {
     await indy.crypto.sendAnonCryptedMessage(theirEndpointDid, await indy.crypto.buildAuthcryptedMessage(myDid, theirDid, MESSAGE_TYPES.ACKNOWLEDGE, "Success"));
-    await indy.proofs.sendRequest(myDid, theirDid, 'General-Identity');
+    await indy.proofs.sendRequest(myDid, theirDid, 'Person-ID');
 };
 
 exports.acceptAcknowledgement = async function (theirDid, encryptedMessage) {
@@ -118,7 +118,7 @@ exports.acceptAcknowledgement = async function (theirDid, encryptedMessage) {
     let message = await indy.crypto.authDecrypt(myDid, encryptedMessage);
     console.log(message);
 
-    await indy.proofs.sendRequest(myDid, theirDid, 'General-Identity');
+    await indy.proofs.sendRequest(myDid, theirDid, 'Person-ID');
 };
 
 // accept identity proof request, send identity proof and own proof request on identity

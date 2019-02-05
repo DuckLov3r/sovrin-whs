@@ -16,12 +16,12 @@ let proofRequests;
 exports.getProofRequests = async function(force) {
     if(force || !proofRequests) {
         proofRequests = {};
-        proofRequests['General-Identity'] = {
-            name: 'General-Identity',
-            version: '0.2',
+        proofRequests['Person-ID'] = {
+            name: 'Person-ID',
+            version: '1.2',
             requested_attributes: {
                 attr1_referent: {
-                    name: 'name',
+                    name: 'b_Vorname',
                     restrictions: [{'cred_def_id': await indy.did.getPersonIdCredDefId()}]
                 }
             },

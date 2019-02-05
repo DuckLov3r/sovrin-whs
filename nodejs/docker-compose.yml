@@ -56,101 +56,104 @@ services:
       services:
         ipv4_address: 173.17.0.150
 
-  #
-  #
-  # bob:
-  #   image: indy-agentjs
-  #   command: "bash -c 'npm start'"
-  #   # "bash -c 'npm start'"
-  #   environment:
-  #     - PORT=3001
-  #     - VORNAME=Bob
-  #     - NAME=Ducklove_Bobsen
-  #     - GEBURTSTAG=01.11.1980
-  #     - GEBURTSORT=Ducktown Gelsen
-  #     - ANSCHRIFT=quackstreet 123
-  #     - PASSWORD=123
-  #     - USERNAME=bob
-  #     - PUBLIC_DID_ENDPOINT=173.17.0.160:3001
-  #     - DOCKERHOST=${DOCKERHOST}
-  #     - RUST_LOG=${RUST_LOG}
-  #     - TEST_POOL_IP=${TEST_POOL_IP}
-  #   ports:
-  #     - 3001:3001
-  #     #- 9229:9229
-  #   depends_on:
-  #     - pool
-  #     - alice
-  #   networks:
-  #     services:
-  #       ipv4_address: 173.17.0.160
+  
+  
+  bob:
+    image: indy-agentjs
+    command: "bash -c 'npm start'"
+    # "bash -c 'npm start'"
+    environment:
+      - PORT=3001
+      - VORNAME=Bob
+      - NAME=Ducklove_Bobsen
+      - GEBURTSTAG=01.11.1980
+      - GEBURTSORT=Ducktown Gelsen
+      - ANSCHRIFT=quackstreet 123
+      - PASSWORD=123
+      - USERNAME=bob
+      - PUBLIC_DID_ENDPOINT=173.17.0.160:3001
+      - DOCKERHOST=${DOCKERHOST}
+      - RUST_LOG=${RUST_LOG}
+      - TEST_POOL_IP=${TEST_POOL_IP}
+    ports:
+      - 3001:3001
+      - 9230:9229
+    depends_on:
+      - pool
+      - alice
+    networks:
+      services:
+        ipv4_address: 173.17.0.160
 
-  # faber:
-  #   image: indy-agentjs
-  #   command: "bash -c 'npm start'"
-  #   environment:
-  #     - PORT=3002
-  #     - VORNAME=Faber University
-  #     - NAME=GmbH
-  #     - GEBURTSTAG=01.11.1950
-  #     - GEBURTSORT=Ducktown
-  #     - ANSCHRIFT=quackstreet 1250
-  #     - PASSWORD=123
-  #     - USERNAME=faber
-  #     - PUBLIC_DID_ENDPOINT=173.17.0.170:3002
-  #     - DOCKERHOST=${DOCKERHOST}
-  #     - RUST_LOG=${RUST_LOG}
-  #     - TEST_POOL_IP=${TEST_POOL_IP}
-  #   ports:
-  #     - 3002:3002
-  #   depends_on:
-  #     - pool
-  #     - alice
-  #   networks:
-  #     services:
-  #       ipv4_address: 173.17.0.170
+  faber:
+    image: indy-agentjs
+    command: "bash -c 'npm start'"
+    environment:
+      - PORT=3002
+      - VORNAME=Faber University
+      - NAME=GmbH
+      - GEBURTSTAG=01.11.1950
+      - GEBURTSORT=Ducktown
+      - ANSCHRIFT=quackstreet 1250
+      - PASSWORD=123
+      - USERNAME=faber
+      - PUBLIC_DID_ENDPOINT=173.17.0.170:3002
+      - DOCKERHOST=${DOCKERHOST}
+      - RUST_LOG=${RUST_LOG}
+      - TEST_POOL_IP=${TEST_POOL_IP}
+    ports:
+      - 3002:3002
+      - 9231:9229
+    depends_on:
+      - pool
+      - alice
+    networks:
+      services:
+        ipv4_address: 173.17.0.170
 
-  # acme:
-  #   image: indy-agentjs
-  #   command: "bash -c 'npm start'"
-  #   environment:
-  #     - PORT=3003
-  #     - NAME=Acme Corporation
-  #     - EMAIL=boss@acme.com
-  #     - PASSWORD=123
-  #     - USERNAME=acme
-  #     - PUBLIC_DID_ENDPOINT=173.17.0.180:3003
-  #     - DOCKERHOST=${DOCKERHOST}
-  #     - RUST_LOG=${RUST_LOG}
-  #     - TEST_POOL_IP=${TEST_POOL_IP}
-  #   ports:
-  #     - 3003:3003
-  #   depends_on:
-  #     - pool
-  #     - alice
-  #   networks:
-  #     services:
-  #       ipv4_address: 173.17.0.180
+  acme:
+    image: indy-agentjs
+    command: "bash -c 'npm start'"
+    environment:
+      - PORT=3003
+      - NAME=Acme Corporation
+      - EMAIL=boss@acme.com
+      - PASSWORD=123
+      - USERNAME=acme
+      - PUBLIC_DID_ENDPOINT=173.17.0.180:3003
+      - DOCKERHOST=${DOCKERHOST}
+      - RUST_LOG=${RUST_LOG}
+      - TEST_POOL_IP=${TEST_POOL_IP}
+    ports:
+      - 3003:3003
+      - 9232:9229
+    depends_on:
+      - pool
+      - alice
+    networks:
+      services:
+        ipv4_address: 173.17.0.180
 
-  # thrift:
-  #   image: indy-agentjs
-  #   command: "bash -c 'npm start'"
-  #   environment:
-  #     - PORT=3004
-  #     - NAME=Thrift Bank
-  #     - ADDRESS=Indystreet123
-  #     - DAY_OF_BIRTH=11-11-1990
-  #     - PASSWORD=123
-  #     - USERNAME=thrift
-  #     - PUBLIC_DID_ENDPOINT=173.17.0.190:3004
-  #     - DOCKERHOST=${DOCKERHOST}
-  #     - RUST_LOG=${RUST_LOG}
-  #     - TEST_POOL_IP=${TEST_POOL_IP}
-  #   ports:
-  #     - 3004:3004
-  #   depends_on:
-  #     - pool
-  #     - alice
-  #   networks:
-  #     services:
-  #       ipv4_address: 173.17.0.190
+  thrift:
+    image: indy-agentjs
+    command: "bash -c 'npm start'"
+    environment:
+      - PORT=3004
+      - NAME=Thrift Bank
+      - ADDRESS=Indystreet123
+      - DAY_OF_BIRTH=11-11-1990
+      - PASSWORD=123
+      - USERNAME=thrift
+      - PUBLIC_DID_ENDPOINT=173.17.0.190:3004
+      - DOCKERHOST=${DOCKERHOST}
+      - RUST_LOG=${RUST_LOG}
+      - TEST_POOL_IP=${TEST_POOL_IP}
+    ports:
+      - 3004:3004
+      - 9233:9229
+    depends_on:
+      - pool
+      - alice
+    networks:
+      services:
+        ipv4_address: 173.17.0.190
