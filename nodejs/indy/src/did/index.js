@@ -119,9 +119,9 @@ async function issuePersonIdCredential() {
     } catch(e) {
         [personIdSchemaId, personIdSchema] = await sdk.issuerCreateSchema(stewardDid, schemaName, schemaVersion, [
             'name',
-            'c_Geburtstag',
-            'd_Geburtsort',
-            'e_Anschrift'
+            'geburtstag',
+            'geburtsort',
+            'anschrift'
         ]);
         await indy.issuer.sendSchema(await indy.pool.get(), stewardWallet, stewardDid, personIdSchema);
         personIdSchema = await indy.issuer.getSchema(personIdSchemaId);
@@ -142,9 +142,9 @@ async function issuePersonIdCredential() {
 
     let personIdValues = {
             name: { "raw": config.userInformation.name, "encoded": indy.credentials.encode(config.userInformation.name) },       
-            c_Geburtstag: {"raw": config.userInformation.geburtstag, "encoded": indy.credentials.encode(config.userInformation.geburtstag)},
-            d_Geburtsort: {"raw": config.userInformation.geburtsort, "encoded": indy.credentials.encode(config.userInformation.geburtsort)},
-            e_Anschrift: { "raw": config.userInformation.anschrift, "encoded": indy.credentials.encode(config.userInformation.anschrift) }
+            geburtstag: {"raw": config.userInformation.geburtstag, "encoded": indy.credentials.encode(config.userInformation.geburtstag)},
+            geburtsort: {"raw": config.userInformation.geburtsort, "encoded": indy.credentials.encode(config.userInformation.geburtsort)},
+            anschrift: { "raw": config.userInformation.anschrift, "encoded": indy.credentials.encode(config.userInformation.anschrift) }
     };
 
     let [personIdCredential] = await sdk.issuerCreateCredential(stewardWallet, personIdCredOffer, personIdCredRequest, personIdValues);
@@ -164,10 +164,10 @@ async function issueSchoolIdCredential() {
     } catch(e) {
         [schoolIdSchemaId, schoolIdSchema] = await sdk.issuerCreateSchema(stewardDid, schemaName, schemaVersion, [
             'name',
-            'c_Geburtstag',
-            'd_Schule',
-            'e_Abschluss',
-            'f_Durchschnitt'
+            'geburtstag',
+            'schule',
+            'abschluss',
+            'durchschnitt'
         ]);
         await indy.issuer.sendSchema(await indy.pool.get(), stewardWallet, stewardDid, schoolIdSchema);
         schoolIdSchema = await indy.issuer.getSchema(schoolIdSchemaId);
@@ -187,10 +187,10 @@ async function issueSchoolIdCredential() {
 
     let schoolIdValues = {
             name: { "raw": config.userInformation.name, "encoded": indy.credentials.encode(config.userInformation.name) },      
-            c_Geburtstag: {"raw": config.userInformation.geburtstag, "encoded": indy.credentials.encode(config.userInformation.geburtstag)},
-            d_Schule: {"raw": config.userInformation.schule, "encoded": indy.credentials.encode(config.userInformation.schule)},
-            e_Abschluss: { "raw": config.userInformation.abschluss, "encoded": indy.credentials.encode(config.userInformation.abschluss)},
-            f_Durchschnitt: { "raw": config.userInformation.durchschnitt, "encoded": indy.credentials.encode(config.userInformation.durchschnitt)},
+            geburtstag: {"raw": config.userInformation.geburtstag, "encoded": indy.credentials.encode(config.userInformation.geburtstag)},
+            schule: {"raw": config.userInformation.schule, "encoded": indy.credentials.encode(config.userInformation.schule)},
+            abschluss: { "raw": config.userInformation.abschluss, "encoded": indy.credentials.encode(config.userInformation.abschluss)},
+            durchschnitt: { "raw": config.userInformation.durchschnitt, "encoded": indy.credentials.encode(config.userInformation.durchschnitt)},
     };
 
     let [schoolIdCredential] = await sdk.issuerCreateCredential(stewardWallet, schoolIdCredOffer, schoolIdCredRequest, schoolIdValues);

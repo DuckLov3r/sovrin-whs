@@ -87,9 +87,8 @@ services:
     image: indy-agentjs
     command: "bash -c 'npm start'"
     environment:
-      - PORT=3002
-      - VORNAME=Faber University
-      - NAME=GmbH
+      - PORT=3002,
+      - NAME=Westfälische Hochschule
       - GEBURTSTAG=01.11.1950
       - GEBURTSORT=Ducktown
       - ANSCHRIFT=quackstreet 1250
