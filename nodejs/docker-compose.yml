@@ -33,8 +33,7 @@ services:
     # "bash -c 'node --inspect-brk=0.0.0.0:9229 ./bin/www'"
     environment:
       - PORT=3000
-      - VORNAME=Alice
-      - NAME=White
+      - NAME=Alice White
       - GEBURTSTAG=01.11.1990
       - GEBURTSORT=Wondercity
       - ANSCHRIFT=Heartstreet 123
@@ -64,7 +63,6 @@ services:
     # "bash -c 'npm start'"
     environment:
       - PORT=3001
-      - VORNAME=Bob
       - NAME=Ducklove_Bobsen
       - GEBURTSTAG=01.11.1980
       - GEBURTSORT=Ducktown Gelsen

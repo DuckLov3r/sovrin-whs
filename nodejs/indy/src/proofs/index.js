@@ -21,7 +21,7 @@ exports.getProofRequests = async function(force) {
             version: '1.2',
             requested_attributes: {
                 attr1_referent: {
-                    name: 'b_Vorname',
+                    name: 'name',
                     restrictions: [{'cred_def_id': await indy.did.getPersonIdCredDefId()}]
                 }
             },

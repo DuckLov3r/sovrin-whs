@@ -19,8 +19,7 @@ const config = {
 
     // This information is used to issue your "Person ID"
     userInformation: {
-        vorname: process.env.VORNAME || 'BUGvorname',
-        name: process.env.NAME || 'buGnachname',
+        name: process.env.NAME || 'buGname',
         geburtstag: process.env.GEBURTSTAG || 'BUGgeburtstag',
         geburtsort: process.env.GEBURTSORT || 'BUGgeburtstort',
         anschrift: process.env.ANSCHRIFT || 'BUGanschrift',

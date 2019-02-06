@@ -118,8 +118,7 @@ async function issuePersonIdCredential() {
         personIdSchema = await indy.issuer.getSchema(personIdSchemaId);
     } catch(e) {
         [personIdSchemaId, personIdSchema] = await sdk.issuerCreateSchema(stewardDid, schemaName, schemaVersion, [
-            'a_Name',
-            'b_Vorname',
+            'name',
             'c_Geburtstag',
             'd_Geburtsort',
             'e_Anschrift'
@@ -142,8 +141,7 @@ async function issuePersonIdCredential() {
 
 
     let personIdValues = {
-            a_Name: { "raw": config.userInformation.name, "encoded": indy.credentials.encode(config.userInformation.name) },
-            b_Vorname: {"raw": config.userInformation.vorname, "encoded": indy.credentials.encode(config.userInformation.vorname)},       
+            name: { "raw": config.userInformation.name, "encoded": indy.credentials.encode(config.userInformation.name) },       
             c_Geburtstag: {"raw": config.userInformation.geburtstag, "encoded": indy.credentials.encode(config.userInformation.geburtstag)},
             d_Geburtsort: {"raw": config.userInformation.geburtsort, "encoded": indy.credentials.encode(config.userInformation.geburtsort)},
             e_Anschrift: { "raw": config.userInformation.anschrift, "encoded": indy.credentials.encode(config.userInformation.anschrift) }
@@ -165,8 +163,7 @@ async function issueSchoolIdCredential() {
         schoolIdSchema = await indy.issuer.getSchema(schoolIdSchemaId);
     } catch(e) {
         [schoolIdSchemaId, schoolIdSchema] = await sdk.issuerCreateSchema(stewardDid, schemaName, schemaVersion, [
-            'a_Name',
-            'b_Vorname',
+            'name',
             'c_Geburtstag',
             'd_Schule',
             'e_Abschluss',
@@ -189,8 +186,7 @@ async function issueSchoolIdCredential() {
     let [schoolIdCredRequest, schoolIdRequestMetadata] = await sdk.proverCreateCredentialReq(await indy.wallet.get(), endpointDid, schoolIdCredOffer, schoolIdCredDef, await indy.did.getEndpointDidAttribute('master_secret_id'));
 
     let schoolIdValues = {
-            a_Name: { "raw": config.userInformation.name, "encoded": indy.credentials.encode(config.userInformation.name) },
-            b_Vorname: {"raw": config.userInformation.vorname, "encoded": indy.credentials.encode(config.userInformation.vorname)},       
+            name: { "raw": config.userInformation.name, "encoded": indy.credentials.encode(config.userInformation.name) },      
             c_Geburtstag: {"raw": config.userInformation.geburtstag, "encoded": indy.credentials.encode(config.userInformation.geburtstag)},
             d_Schule: {"raw": config.userInformation.schule, "encoded": indy.credentials.encode(config.userInformation.schule)},
             e_Abschluss: { "raw": config.userInformation.abschluss, "encoded": indy.credentials.encode(config.userInformation.abschluss)},
