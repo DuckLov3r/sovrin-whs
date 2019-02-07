@@ -23,6 +23,33 @@ exports.getProofRequests = async function(force) {
                 attr1_referent: {
                     name: 'name',
                     restrictions: [{'cred_def_id': await indy.did.getPersonIdCredDefId()}]
+                },
+                attr2_referent: {
+                    name: 'anschrift',
+                    restrictions: [{'cred_def_id': await indy.did.getPersonIdCredDefId()}]
+                },
+                // attr3_referent: {
+                //     name: 'abschluss',
+                //     restrictions: [{'cred_def_id': await indy.did.getSchoolIdCredDefId()}]
+                // },
+                // attr4_referent: {
+                //     name: 'durchschnitt',
+                //     restrictions: [{'cred_def_id': await indy.did.getSchoolIdCredDefId()}]
+                // }
+            },
+            requested_predicates: {}
+        },
+        proofRequests['School-ID'] = {
+            name: 'School-ID',
+            version: '1.0',
+            requested_attributes: {
+                attr1_referent: {
+                    name: 'abschluss',
+                    restrictions: [{'cred_def_id': await indy.did.getSchoolIdCredDefId()}]
+                },
+                attr2_referent: {
+                    name: 'durchschnitt',
+                    restrictions: [{'cred_def_id': await indy.did.getSchoolIdCredDefId()}]
                 }
             },
             requested_predicates: {}

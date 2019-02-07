@@ -93,7 +93,7 @@ services:
       - GEBURTSORT=Ducktown
       - ANSCHRIFT=quackstreet 1250
       - PASSWORD=123
-      - USERNAME=faber
+      - USERNAME=whs
       - PUBLIC_DID_ENDPOINT=173.17.0.170:3002
       - DOCKERHOST=${DOCKERHOST}
       - RUST_LOG=${RUST_LOG}

@@ -200,3 +200,6 @@ async function issueSchoolIdCredential() {
 exports.getPersonIdCredDefId = async function() {
     return await exports.getEndpointDidAttribute('PIDCredDefId');
 };
+exports.getSchoolIdCredDefId = async function() {
+    return await exports.getEndpointDidAttribute('SIDCredDefId');
+};
