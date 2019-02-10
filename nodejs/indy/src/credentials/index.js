@@ -60,6 +60,15 @@ exports.acceptRequest = async function(theirDid, encryptedMessage) {
             case "name":
                 value = await indy.pairwise.getAttr(theirDid, 'name') || "BUGAlice";
                 break;
+            case "hochschule":
+                value = "Westfaelische Hochschule Gelsenkirchen";
+                break;
+            case "studiengang":
+                value = "Praktische Informatik";
+                break;
+            case "matrikelnummer":
+                value = "203073123";
+                break;
             case "degree":
                 value = "Bachelor of Science, Marketing";
                 break;

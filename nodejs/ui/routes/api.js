@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const indy = require('../../indy/index');
+const sdk = require('indy-sdk');
 const auth = require('../authentication');
 
 router.get('/', function (req, res, next) {
@@ -25,16 +26,49 @@ router.post('/send_connection_request', auth.isLoggedIn, async function (req, re
 
 router.post('/issuer/create_schema', auth.isLoggedIn, async function (req, res) {
     await indy.issuer.createSchema(req.body.name_of_schema, req.body.version, req.body.attributes);
+    console.log("//////////////////////////////////////////////////////////");
+    console.log(req.body.name_of_schema);
+    console.log(req.body.version);
+    console.log(req.body.attributes);
+    console.log("//////////////////////////////////////////////////////////");
+
     res.redirect('/#issuing');
 });
 
 router.post('/issuer/create_cred_def', auth.isLoggedIn, async function (req, res) {
     await indy.issuer.createCredDef(req.body.schema_id, req.body.tag);
+    console.log("###########################################################");
+    console.log(req.body.schema_id);
+    console.log(req.body.tag);
+    console.log("###########################################################");
+
     res.redirect('/#issuing');
 });
 
 router.post('/issuer/send_credential_offer', auth.isLoggedIn, async function (req, res) {
     await indy.credentials.sendOffer(req.body.their_relationship_did, req.body.cred_def_id);
+    res.redirect('/#issuing');
+});
+
+router.post('/issuer/send_transcript_credential_offer', auth.isLoggedIn, async function (req, res) {
+    
+    try {
+        await indy.issuer.createSchema("WHS-ID", "1.0", "[\"name\", \"hochschule\", \"studiengang\", \"matrikelnummer\"]");  
+    } catch (e) {
+        console.warn('create schema failed with message: ' + e.message);
+        throw e;
+    } 
+    let credDef;
+    try {
+        let schemaId= "" + await indy.did.getEndpointDid() + ":2:WHS-ID:1.0";
+        await indy.issuer.createCredDef(schemaId, "WHS-Id");
+        credDef = await indy.issuer.getCredDefByTag("WHS-Id");   
+    } catch (e) {
+        console.warn('create CredDef failed with message: ' + e.message);
+        throw e;  
+    } finally {
+        await indy.credentials.sendOffer(req.body.their_relationship_did, credDef.id);
+    }
     res.redirect('/#issuing');
 });
 

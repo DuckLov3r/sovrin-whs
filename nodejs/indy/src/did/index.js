@@ -197,6 +197,8 @@ async function issueSchoolIdCredential() {
     let res = await sdk.proverStoreCredential(await indy.wallet.get(), null, schoolIdRequestMetadata, schoolIdCredential, schoolIdCredDef);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.getPersonIdCredDefId = async function() {
     return await exports.getEndpointDidAttribute('PIDCredDefId');
 };

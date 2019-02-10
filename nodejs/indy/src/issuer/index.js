@@ -20,11 +20,18 @@ exports.getSchemas = async function () {
 };
 
 exports.createCredDef = async function (schemaId, tag) {
-    let schema = await exports.getSchema(schemaId);
-    let [credDefId, credDefJson] = await sdk.issuerCreateAndStoreCredentialDef(await indy.wallet.get(), await indy.did.getEndpointDid(), schema, tag, 'CL', '{"support_revocation": false}');
-    let credDefRequest = await sdk.buildCredDefRequest(await indy.did.getEndpointDid(), credDefJson);
-    await sdk.signAndSubmitRequest(await indy.pool.get(), await indy.wallet.get(), await indy.did.getEndpointDid(), credDefRequest);
-    await indy.did.pushEndpointDidAttribute('credential_definitions', credDefJson);
+    if(await exports.getCredDefByTag(tag)==null) {
+        let schema = await exports.getSchema(schemaId);
+        let [credDefId, credDefJson] = await sdk.issuerCreateAndStoreCredentialDef(await indy.wallet.get(), await indy.did.getEndpointDid(), schema, tag, 'CL', '{"support_revocation": false}');
+        let test = exports.getCredDefByTag(tag);
+        console.log("////////////////////////credDef///////////////////////////////////////////////////////////////////////////////");
+        console.log(test);
+        console.log("///////////////////////////////////////////////////////////////////////////////////////////////////////");
+        let credDefRequest = await sdk.buildCredDefRequest(await indy.did.getEndpointDid(), credDefJson);
+        await sdk.signAndSubmitRequest(await indy.pool.get(), await indy.wallet.get(), await indy.did.getEndpointDid(), credDefRequest);
+        await indy.did.pushEndpointDidAttribute('credential_definitions', credDefJson);
+    }
+    
 };
 
 exports.sendSchema = async function(poolHandle, walletHandle, Did, schema) {
