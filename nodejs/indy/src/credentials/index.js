@@ -16,7 +16,7 @@ exports.getAll = async function () {
 };
 
 exports.sendOffer = async function (theirDid, credentialDefinitionId) {
-    let credOffer = await sdk.issuerCreateCredentialOffer(await indy.wallet.get(), credentialDefinitionId);
+    let credOffer = await sdk.issuerCreateCredentialOffer(await indy.wallet.get(), credentialDefinitionId); //await indy.wallet.get()
     await indy.store.pendingCredentialOffers.write(credOffer);
     let pairwise = await sdk.getPairwise(await indy.wallet.get(), theirDid);
     let myDid = pairwise.my_did;

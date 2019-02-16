@@ -53,6 +53,26 @@ exports.getProofRequests = async function(force) {
                 }
             },
             requested_predicates: {}
+        },
+        
+        proofRequests['WHS-ID'] = {
+            name: 'WHS-ID',
+            version: '1.0',
+            requested_attributes: {
+                attr1_referent: {
+                    name: 'hochschule',
+                    restrictions: [{'cred_def_id': (await indy.issuer.getCredDefByTag('WID')).id}]
+                },
+                attr2_referent: {
+                    name: 'durchschnitt',
+                    restrictions: [{'cred_def_id': await indy.did.getSchoolIdCredDefId()}]
+                },
+                attr3_referent: {
+                    name: 'studiengang',
+                    restrictions: [{'cred_def_id': (await indy.issuer.getCredDefByTag('WID')).id}]
+                },
+            },
+            requested_predicates: {}
         };
         let transcriptCredDef = await indy.issuer.getCredDefByTag('MyTranscript');
         if(transcriptCredDef) {

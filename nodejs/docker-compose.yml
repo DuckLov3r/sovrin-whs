@@ -57,18 +57,18 @@ services:
 
   
   
-  bob:
+  ifis:
     image: indy-agentjs
     command: "bash -c 'npm start'"
     # "bash -c 'npm start'"
     environment:
       - PORT=3001
-      - NAME=Ducklove_Bobsen
-      - GEBURTSTAG=01.11.1980
-      - GEBURTSORT=Ducktown Gelsen
-      - ANSCHRIFT=quackstreet 123
+      - NAME=ifis
+      - GEBURTSTAG=01.01.1998
+      - GEBURTSORT=Gelsenkirchen
+      - ANSCHRIFT=Neidenburger Straße 143
       - PASSWORD=123
-      - USERNAME=bob
+      - USERNAME=ifis
       - PUBLIC_DID_ENDPOINT=173.17.0.160:3001
       - DOCKERHOST=${DOCKERHOST}
       - RUST_LOG=${RUST_LOG}
@@ -82,6 +82,7 @@ services:
     networks:
       services:
         ipv4_address: 173.17.0.160
+
 
   faber:
     image: indy-agentjs
