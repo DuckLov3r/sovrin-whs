@@ -50,6 +50,7 @@ exports.createEndpointDid = async function () {
     await issuePersonIdCredential();
     await issueSchoolIdCredential();
     await issueWhsIdCredential();
+
 };
 
 exports.setEndpointDidAttribute = async function (attribute, item) {
@@ -128,13 +129,13 @@ async function issuePersonIdCredential() {
         await indy.issuer.sendSchema(await indy.pool.get(), stewardWallet, stewardDid, personIdSchema);
         personIdSchema = await indy.issuer.getSchema(personIdSchemaId);
     }
-    console.log(JSON.stringify(personIdSchema));
+   
 
 
     let personIdCredDef;
     [personIdCredDefId, personIdCredDef] = await sdk.issuerCreateAndStoreCredentialDef(stewardWallet, stewardDid, personIdSchema, 'PID', signatureType, '{"support_revocation": false}');
     await indy.issuer.sendCredDef(await indy.pool.get(), stewardWallet, stewardDid, personIdCredDef);
-    console.log("This is the personIdCredDefId" + personIdCredDefId);
+    
     exports.setEndpointDidAttribute('PIDCredDefId', personIdCredDefId);
 
 
@@ -151,6 +152,7 @@ async function issuePersonIdCredential() {
 
     let [personIdCredential] = await sdk.issuerCreateCredential(stewardWallet, personIdCredOffer, personIdCredRequest, personIdValues);
     let res = await sdk.proverStoreCredential(await indy.wallet.get(), null, personIdRequestMetadata, personIdCredential, personIdCredDef);
+    console.log("PersonID: ", await indy.did.getPersonIdCredDefId());
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 async function issueSchoolIdCredential() {
@@ -174,13 +176,11 @@ async function issueSchoolIdCredential() {
         await indy.issuer.sendSchema(await indy.pool.get(), stewardWallet, stewardDid, schoolIdSchema);
         schoolIdSchema = await indy.issuer.getSchema(schoolIdSchemaId);
     }
-    console.log(JSON.stringify(schoolIdSchema));
-
-
+    
     let schoolIdCredDef;
     [schoolIdCredDefId, schoolIdCredDef] = await sdk.issuerCreateAndStoreCredentialDef(stewardWallet, stewardDid, schoolIdSchema, 'SID', signatureType, '{"support_revocation": false}');
     await indy.issuer.sendCredDef(await indy.pool.get(), stewardWallet, stewardDid, schoolIdCredDef);
-    console.log("This is the schoolIdCredDefId: " + schoolIdCredDefId);
+    
     exports.setEndpointDidAttribute('SIDCredDefId', schoolIdCredDefId);
 
 
@@ -197,10 +197,11 @@ async function issueSchoolIdCredential() {
 
     let [schoolIdCredential] = await sdk.issuerCreateCredential(stewardWallet, schoolIdCredOffer, schoolIdCredRequest, schoolIdValues);
     let res = await sdk.proverStoreCredential(await indy.wallet.get(), null, schoolIdRequestMetadata, schoolIdCredential, schoolIdCredDef);
+    console.log("SchoolID: ", await indy.did.getSchoolIdCredDefId());
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 async function issueWhsIdCredential() {    
-    /* let schemaName = 'WHS-ID';
+    let schemaName = 'WHS-ID';
     let schemaVersion = '1.0';
     let signatureType = 'CL';
     let whsIdSchema;
@@ -218,17 +219,21 @@ async function issueWhsIdCredential() {
         ]);
         await indy.issuer.sendSchema(await indy.pool.get(), stewardWallet, stewardDid, whsIdSchema);
         whsIdSchema = await indy.issuer.getSchema(whsIdSchemaId);
-    } */
-    await indy.issuer.createSchema("WHS-ID", "1.0", "[\"name\", \"hochschule\", \"studiengang\", \"matrikelnummer\"]");  
-    let whsIdSchemaId= "" + await indy.did.getEndpointDid() + ":2:WHS-ID:1.0";
-
+    }
+    //worked
     await indy.issuer.createCredDef(whsIdSchemaId, 'WID');
-    let whsIdCredDef;
-    /* [whsIdCredDefId, whsIdCredDef] = await sdk.issuerCreateAndStoreCredentialDef(stewardWallet, stewardDid, whsIdSchema, 'WHS-ID', signatureType, '{"support_revocation": false}');
+
+    console.log("WhsID: ", (await indy.issuer.getCredDefByTag("WID")).id);
+    //not sure
+    /* let whsIdCredDef;
+    [whsIdCredDefId, whsIdCredDef] = await sdk.issuerCreateAndStoreCredentialDef(stewardWallet, stewardDid, whsIdSchema, 'WID', signatureType, '{"support_revocation": false}');
     await indy.issuer.sendCredDef(await indy.pool.get(), stewardWallet, stewardDid, whsIdCredDef);
-    console.log("This is the whsIdCredDefId: " + whsIdCredDefId);
-    await indy.did.pushEndpointDidAttribute('credential_definitions', whsIdCredDef);
-    exports.setEndpointDidAttribute('WHS-IDCredDefId', whsIdCredDefId); */
+    
+    exports.setEndpointDidAttribute('WHSCredDefId', whsIdCredDefId); 
+    
+    console.log("WhsId: ", await indy.did.getWhsIdCredDefId()); */
+
+    
 }    
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.getPersonIdCredDefId = async function() {
@@ -238,7 +243,7 @@ exports.getSchoolIdCredDefId = async function() {
     return await exports.getEndpointDidAttribute('SIDCredDefId');
 };
 exports.getWhsIdCredDefId = async function() {
-    return await exports.getEndpointDidAttribute('WHS-IDCredDefId');
+    return await exports.getEndpointDidAttribute('WHSCredDefId');
 };
 exports.getStewardWallet = async function() {
     return stewardWallet;

@@ -61,7 +61,7 @@ exports.getProofRequests = async function(force) {
             requested_attributes: {
                 attr1_referent: {
                     name: 'hochschule',
-                    restrictions: [{'cred_def_id': (await indy.issuer.getCredDefByTag('WID')).id}]
+                    //restrictions: [{'cred_def_id': (await indy.issuer.getCredDefByTag('WID')).id}]
                 },
                 attr2_referent: {
                     name: 'durchschnitt',
@@ -69,7 +69,7 @@ exports.getProofRequests = async function(force) {
                 },
                 attr3_referent: {
                     name: 'studiengang',
-                    restrictions: [{'cred_def_id': (await indy.issuer.getCredDefByTag('WID')).id}]
+                    //restrictions: [{'cred_def_id': (await indy.issuer.getCredDefByTag('WID')).id}]
                 },
             },
             requested_predicates: {}
