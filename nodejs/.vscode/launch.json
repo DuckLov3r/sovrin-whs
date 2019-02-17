@@ -16,7 +16,7 @@
             "protocol": "inspector"
         },
         {
-            "name": "Docker: Attach to indy-agent-Bob",
+            "name": "Docker: Attach to indy-agent-ifis",
             "type": "node",
             "request": "attach",
             "port": 9230,
@@ -26,7 +26,7 @@
             "protocol": "inspector"
         },
         {
-            "name": "Docker: Attach to indy-agent-Faber",
+            "name": "Docker: Attach to indy-agent-Whs",
             "type": "node",
             "request": "attach",
             "port": 9231,
@@ -36,7 +36,7 @@
             "protocol": "inspector"
         },
         {
-            "name": "Docker: Attach to indy-agent-Acme",
+            "name": "Docker: Attach to indy-agent-SWH",
             "type": "node",
             "request": "attach",
             "port": 9232,
@@ -45,15 +45,5 @@
             "remoteRoot": "/~/nodejs",
             "protocol": "inspector"
         },
-        {
-            "name": "Docker: Attach to indy-agent-Thrift",
-            "type": "node",
-            "request": "attach",
-            "port": 9233,
-            "address": "localhost",
-            "localRoot": "${workspaceFolder}/",
-            "remoteRoot": "/~/nodejs",
-            "protocol": "inspector"
-        }
     ]
 }

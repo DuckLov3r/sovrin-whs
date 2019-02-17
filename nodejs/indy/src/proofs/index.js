@@ -61,7 +61,7 @@ exports.getProofRequests = async function(force) {
             requested_attributes: {
                 attr1_referent: {
                     name: 'hochschule',
-                    //restrictions: [{'cred_def_id': (await indy.issuer.getCredDefByTag('WID')).id}]
+                    restrictions: [{'schema_name': 'WHS-ID'}]
                 },
                 attr2_referent: {
                     name: 'durchschnitt',
@@ -69,8 +69,39 @@ exports.getProofRequests = async function(force) {
                 },
                 attr3_referent: {
                     name: 'studiengang',
-                    //restrictions: [{'cred_def_id': (await indy.issuer.getCredDefByTag('WID')).id}]
+                    restrictions: [{'schema_name': 'WHS-ID'}]
                 },
+            },
+            requested_predicates: {}
+        },
+        proofRequests['SWH-Request'] = {
+            name: 'SWH-Request',
+            version: '1.5',
+            requested_attributes: {
+                attr1_referent: {
+                    name: 'name',
+                    restrictions: [{'cred_def_id': await indy.did.getPersonIdCredDefId()}]
+                },
+                attr2_referent: {
+                    name: 'geburtstag',
+                    restrictions: [{'cred_def_id': await indy.did.getPersonIdCredDefId()}]
+                },
+                attr3_referent: {
+                    name: 'hochschule',
+                    restrictions: [{'schema_name': 'WHS-ID'}]
+                },
+                attr4_referent: {
+                    name: 'matrikelnummer',
+                    restrictions: [{'schema_name': 'WHS-ID'}]
+                },
+                attr5_referent: {
+                    name: 'arbeitgeber',
+                    restrictions: [{'schema_name': 'IFIS-ID'}]
+                },
+                attr6_referent: {
+                    name: 'gehalt',
+                    restrictions: [{'schema_name': 'IFIS-ID'}]
+                }
             },
             requested_predicates: {}
         };

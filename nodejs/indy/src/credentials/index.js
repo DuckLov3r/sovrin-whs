@@ -58,7 +58,7 @@ exports.acceptRequest = async function(theirDid, encryptedMessage) {
         let value;
         switch(attr) {
             case "name":
-                value = await indy.pairwise.getAttr(theirDid, 'name') || "BUGAlice";
+                value = await indy.pairwise.getAttr(theirDid, 'name') || "Alice White";
                 break;
             case "hochschule":
                 value = "Westfaelische Hochschule Gelsenkirchen";
@@ -83,6 +83,24 @@ exports.acceptRequest = async function(theirDid, encryptedMessage) {
                 break;
             case "average":
                 value = "5";
+                break;
+            case "arbeitgeber":
+                value = "Institut fuer Internetsicherheit";
+                break;
+            case "gehalt":
+                value = "450€/Monat";
+                break;
+            case "vertragsart":
+                value = "Studentische Hilfskraft";
+                break;
+            case "anschrift":
+                value = "Buerer Straße";
+                break;
+            case "miete":
+                value = "250€/Monat";
+                break;
+            case "zimmernummer":
+                value = "42";
                 break;
             default:
                 value = "someValue";

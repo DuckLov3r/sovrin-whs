@@ -84,7 +84,7 @@ services:
         ipv4_address: 173.17.0.160
 
 
-  faber:
+  whs:
     image: indy-agentjs
     command: "bash -c 'npm start'"
     environment:
@@ -109,15 +109,17 @@ services:
       services:
         ipv4_address: 173.17.0.170
 
-  acme:
+  studentenwohnheim:
     image: indy-agentjs
     command: "bash -c 'npm start'"
     environment:
-      - PORT=3003
-      - NAME=Acme Corporation
-      - EMAIL=boss@acme.com
+      - PORT=3003,
+      - NAME=Studentenwohnheim
+      - GEBURTSTAG=01.11.1980
+      - GEBURTSORT=Gelsenkirchen
+      - ANSCHRIFT= Buerer Straße 1
       - PASSWORD=123
-      - USERNAME=acme
+      - USERNAME=SWH
       - PUBLIC_DID_ENDPOINT=173.17.0.180:3003
       - DOCKERHOST=${DOCKERHOST}
       - RUST_LOG=${RUST_LOG}
@@ -131,27 +133,3 @@ services:
     networks:
       services:
         ipv4_address: 173.17.0.180
-
-  thrift:
-    image: indy-agentjs
-    command: "bash -c 'npm start'"
-    environment:
-      - PORT=3004
-      - NAME=Thrift Bank
-      - ADDRESS=Indystreet123
-      - DAY_OF_BIRTH=11-11-1990
-      - PASSWORD=123
-      - USERNAME=thrift
-      - PUBLIC_DID_ENDPOINT=173.17.0.190:3004
-      - DOCKERHOST=${DOCKERHOST}
-      - RUST_LOG=${RUST_LOG}
-      - TEST_POOL_IP=${TEST_POOL_IP}
-    ports:
-      - 3004:3004
-      - 9233:9229
-    depends_on:
-      - pool
-      - alice
-    networks:
-      services:
-        ipv4_address: 173.17.0.190

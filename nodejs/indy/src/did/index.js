@@ -50,6 +50,8 @@ exports.createEndpointDid = async function () {
     await issuePersonIdCredential();
     await issueSchoolIdCredential();
     await issueWhsIdCredential();
+    await issueIfisIdCredential();
+    await issueSwhIdCredential();
 
 };
 
@@ -116,7 +118,6 @@ async function issuePersonIdCredential() {
     let personIdSchema;
     let personIdSchemaId = `${stewardDid}:2:${schemaName}:${schemaVersion}`;
     
-
     try {
         personIdSchema = await indy.issuer.getSchema(personIdSchemaId);
     } catch(e) {
@@ -138,7 +139,7 @@ async function issuePersonIdCredential() {
     
     exports.setEndpointDidAttribute('PIDCredDefId', personIdCredDefId);
 
-
+    
     let personIdCredOffer = await sdk.issuerCreateCredentialOffer(stewardWallet, personIdCredDefId);
     let [personIdCredRequest, personIdRequestMetadata] = await sdk.proverCreateCredentialReq(await indy.wallet.get(), endpointDid, personIdCredOffer, personIdCredDef, await indy.did.getEndpointDidAttribute('master_secret_id'));
 
@@ -183,21 +184,22 @@ async function issueSchoolIdCredential() {
     
     exports.setEndpointDidAttribute('SIDCredDefId', schoolIdCredDefId);
 
+    if (config.userInformation.name == "Alice White") {
+        let schoolIdCredOffer = await sdk.issuerCreateCredentialOffer(stewardWallet, schoolIdCredDefId);
+        let [schoolIdCredRequest, schoolIdRequestMetadata] = await sdk.proverCreateCredentialReq(await indy.wallet.get(), endpointDid, schoolIdCredOffer, schoolIdCredDef, await indy.did.getEndpointDidAttribute('master_secret_id'));
 
-    let schoolIdCredOffer = await sdk.issuerCreateCredentialOffer(stewardWallet, schoolIdCredDefId);
-    let [schoolIdCredRequest, schoolIdRequestMetadata] = await sdk.proverCreateCredentialReq(await indy.wallet.get(), endpointDid, schoolIdCredOffer, schoolIdCredDef, await indy.did.getEndpointDidAttribute('master_secret_id'));
+        let schoolIdValues = {
+                name: { "raw": config.userInformation.name, "encoded": indy.credentials.encode(config.userInformation.name) },      
+                geburtstag: {"raw": config.userInformation.geburtstag, "encoded": indy.credentials.encode(config.userInformation.geburtstag)},
+                schule: {"raw": config.userInformation.schule, "encoded": indy.credentials.encode(config.userInformation.schule)},
+                abschluss: { "raw": config.userInformation.abschluss, "encoded": indy.credentials.encode(config.userInformation.abschluss)},
+                durchschnitt: { "raw": config.userInformation.durchschnitt, "encoded": indy.credentials.encode(config.userInformation.durchschnitt)},
+        };
 
-    let schoolIdValues = {
-            name: { "raw": config.userInformation.name, "encoded": indy.credentials.encode(config.userInformation.name) },      
-            geburtstag: {"raw": config.userInformation.geburtstag, "encoded": indy.credentials.encode(config.userInformation.geburtstag)},
-            schule: {"raw": config.userInformation.schule, "encoded": indy.credentials.encode(config.userInformation.schule)},
-            abschluss: { "raw": config.userInformation.abschluss, "encoded": indy.credentials.encode(config.userInformation.abschluss)},
-            durchschnitt: { "raw": config.userInformation.durchschnitt, "encoded": indy.credentials.encode(config.userInformation.durchschnitt)},
-    };
-
-    let [schoolIdCredential] = await sdk.issuerCreateCredential(stewardWallet, schoolIdCredOffer, schoolIdCredRequest, schoolIdValues);
-    let res = await sdk.proverStoreCredential(await indy.wallet.get(), null, schoolIdRequestMetadata, schoolIdCredential, schoolIdCredDef);
-    console.log("SchoolID: ", await indy.did.getSchoolIdCredDefId());
+        let [schoolIdCredential] = await sdk.issuerCreateCredential(stewardWallet, schoolIdCredOffer, schoolIdCredRequest, schoolIdValues);
+        let res = await sdk.proverStoreCredential(await indy.wallet.get(), null, schoolIdRequestMetadata, schoolIdCredential, schoolIdCredDef);
+        console.log("SchoolID: ", await indy.did.getSchoolIdCredDefId());
+    }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 async function issueWhsIdCredential() {    
@@ -224,15 +226,61 @@ async function issueWhsIdCredential() {
     await indy.issuer.createCredDef(whsIdSchemaId, 'WID');
 
     console.log("WhsID: ", (await indy.issuer.getCredDefByTag("WID")).id);
-    //not sure
-    /* let whsIdCredDef;
-    [whsIdCredDefId, whsIdCredDef] = await sdk.issuerCreateAndStoreCredentialDef(stewardWallet, stewardDid, whsIdSchema, 'WID', signatureType, '{"support_revocation": false}');
-    await indy.issuer.sendCredDef(await indy.pool.get(), stewardWallet, stewardDid, whsIdCredDef);
     
-    exports.setEndpointDidAttribute('WHSCredDefId', whsIdCredDefId); 
+}    
+////////////////////////////////////////////////////////////////////////////////////////////////////
+async function issueIfisIdCredential() {    
+    let schemaName = 'IFIS-ID';
+    let schemaVersion = '1.0';
+    let signatureType = 'CL';
+    let ifisIdSchema;
+    let ifisIdSchemaId = `${stewardDid}:2:${schemaName}:${schemaVersion}`;
     
-    console.log("WhsId: ", await indy.did.getWhsIdCredDefId()); */
 
+    try {
+        ifisIdSchema = await indy.issuer.getSchema(ifisIdSchemaId);
+    } catch(e) {
+        [ifisIdSchemaId, ifisIdSchema] = await sdk.issuerCreateSchema(stewardDid, schemaName, schemaVersion, [
+            'name',
+            'arbeitgeber',
+            'gehalt',
+            'vertragsart',
+        ]);
+        await indy.issuer.sendSchema(await indy.pool.get(), stewardWallet, stewardDid, ifisIdSchema);
+        ifisIdSchema = await indy.issuer.getSchema(ifisIdSchemaId);
+    }
+    //worked
+    await indy.issuer.createCredDef(ifisIdSchemaId, 'IFISID');
+
+    console.log("IFISID: ", (await indy.issuer.getCredDefByTag("IFISID")).id);
+    
+}    
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+async function issueSwhIdCredential() {    
+    let schemaName = 'Swh-ID';
+    let schemaVersion = '1.2';
+    let signatureType = 'CL';
+    let swhIdSchema;
+    let swhIdSchemaId = `${stewardDid}:2:${schemaName}:${schemaVersion}`;
+    
+
+    try {
+        swhIdSchema = await indy.issuer.getSchema(swhIdSchemaId);
+    } catch(e) {
+        [swhIdSchemaId, swhIdSchema] = await sdk.issuerCreateSchema(stewardDid, schemaName, schemaVersion, [
+            'name',
+            'zimmernummer',
+            'miete',
+            'anschrift',
+        ]);
+        await indy.issuer.sendSchema(await indy.pool.get(), stewardWallet, stewardDid, swhIdSchema);
+        swhIdSchema = await indy.issuer.getSchema(swhIdSchemaId);
+    }
+    //worked
+    await indy.issuer.createCredDef(swhIdSchemaId, 'SWHID');
+
+    console.log("IFISID: ", (await indy.issuer.getCredDefByTag("SWHID")).id);
     
 }    
 ////////////////////////////////////////////////////////////////////////////////////////////////////
