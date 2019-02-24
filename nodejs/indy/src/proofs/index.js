@@ -28,14 +28,6 @@ exports.getProofRequests = async function(force) {
                     name: 'anschrift',
                     restrictions: [{'cred_def_id': await indy.did.getPersonIdCredDefId()}]
                 },
-                // attr3_referent: {
-                //     name: 'abschluss',
-                //     restrictions: [{'cred_def_id': await indy.did.getSchoolIdCredDefId()}]
-                // },
-                // attr4_referent: {
-                //     name: 'durchschnitt',
-                //     restrictions: [{'cred_def_id': await indy.did.getSchoolIdCredDefId()}]
-                // }
             },
             requested_predicates: {}
         },
@@ -45,11 +37,11 @@ exports.getProofRequests = async function(force) {
             requested_attributes: {
                 attr1_referent: {
                     name: 'abschluss',
-                    restrictions: [{'cred_def_id': await indy.did.getSchoolIdCredDefId()}]
+                    restrictions: [{'schema_name': await indy.did.getSchoolSchemaName()}]
                 },
                 attr2_referent: {
                     name: 'durchschnitt',
-                    restrictions: [{'cred_def_id': await indy.did.getSchoolIdCredDefId()}]
+                    restrictions: [{'schema_name': await indy.did.getSchoolSchemaName()}]
                 }
             },
             requested_predicates: {}
@@ -65,7 +57,7 @@ exports.getProofRequests = async function(force) {
                 },
                 attr2_referent: {
                     name: 'durchschnitt',
-                    restrictions: [{'cred_def_id': await indy.did.getSchoolIdCredDefId()}]
+                    restrictions: [{'schema_name': await indy.did.getSchoolSchemaName()}]
                 },
                 attr3_referent: {
                     name: 'studiengang',
@@ -186,7 +178,7 @@ exports.prepareRequest = async function(message) {
 
 exports.acceptRequest = async function(messageId) {
     let message = indy.store.messages.getMessage(messageId);
-    indy.store.messages.deleteMessage(messageId);
+    await indy.store.messages.deleteMessage(messageId);
     let pairwise = await indy.pairwise.get(message.message.origin);
     let [schemas, credDefs, revocStates] = await indy.pool.proverGetEntitiesFromLedger(message.message.message.credsForProof);
     let proof = await sdk.proverCreateProof(await indy.wallet.get(), message.message.message.proofRequest, message.message.message.requestedCreds, await indy.crypto.getMasterSecretId(), schemas, credDefs, revocStates);

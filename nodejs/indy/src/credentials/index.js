@@ -41,7 +41,8 @@ exports.sendRequest = async function (theirDid, encryptedMessage) {
 exports.acceptRequest = async function(theirDid, encryptedMessage) {
     let myDid = await indy.pairwise.getMyDid(theirDid);
     let credentialRequest = await indy.crypto.authDecrypt(myDid, encryptedMessage,);
-    let [, credDef] = await indy.issuer.getCredDef(await indy.pool.get(), await indy.did.getEndpointDid(), credentialRequest.cred_def_id);
+    let [, credDef] = await indy.issuer.getCredDef(await indy.pool.get(), await indy.did.getEndpointDid(), 
+        credentialRequest.cred_def_id);
 
     let credentialOffer;
     let pendingCredOfferId;

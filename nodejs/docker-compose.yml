@@ -60,7 +60,6 @@ services:
   ifis:
     image: indy-agentjs
     command: "bash -c 'npm start'"
-    # "bash -c 'npm start'"
     environment:
       - PORT=3001
       - NAME=ifis

@@ -131,17 +131,18 @@ async function issuePersonIdCredential() {
         personIdSchema = await indy.issuer.getSchema(personIdSchemaId);
     }
    
-
-
     let personIdCredDef;
-    [personIdCredDefId, personIdCredDef] = await sdk.issuerCreateAndStoreCredentialDef(stewardWallet, stewardDid, personIdSchema, 'PID', signatureType, '{"support_revocation": false}');
+    [personIdCredDefId, personIdCredDef] = await sdk.issuerCreateAndStoreCredentialDef(stewardWallet, stewardDid,
+         personIdSchema, 'PID', signatureType, '{"support_revocation": false}');
+
     await indy.issuer.sendCredDef(await indy.pool.get(), stewardWallet, stewardDid, personIdCredDef);
     
     exports.setEndpointDidAttribute('PIDCredDefId', personIdCredDefId);
 
     
     let personIdCredOffer = await sdk.issuerCreateCredentialOffer(stewardWallet, personIdCredDefId);
-    let [personIdCredRequest, personIdRequestMetadata] = await sdk.proverCreateCredentialReq(await indy.wallet.get(), endpointDid, personIdCredOffer, personIdCredDef, await indy.did.getEndpointDidAttribute('master_secret_id'));
+    let [personIdCredRequest, personIdRequestMetadata] = await sdk.proverCreateCredentialReq(await indy.wallet.get(), 
+        endpointDid, personIdCredOffer, personIdCredDef, await indy.did.getEndpointDidAttribute('master_secret_id'));
 
 
     let personIdValues = {
@@ -182,7 +183,7 @@ async function issueSchoolIdCredential() {
     [schoolIdCredDefId, schoolIdCredDef] = await sdk.issuerCreateAndStoreCredentialDef(stewardWallet, stewardDid, schoolIdSchema, 'SID', signatureType, '{"support_revocation": false}');
     await indy.issuer.sendCredDef(await indy.pool.get(), stewardWallet, stewardDid, schoolIdCredDef);
     
-    exports.setEndpointDidAttribute('SIDCredDefId', schoolIdCredDefId);
+    exports.setEndpointDidAttribute('SIDSchemaName', schemaName);
 
     if (config.userInformation.name == "Alice White") {
         let schoolIdCredOffer = await sdk.issuerCreateCredentialOffer(stewardWallet, schoolIdCredDefId);
@@ -198,7 +199,7 @@ async function issueSchoolIdCredential() {
 
         let [schoolIdCredential] = await sdk.issuerCreateCredential(stewardWallet, schoolIdCredOffer, schoolIdCredRequest, schoolIdValues);
         let res = await sdk.proverStoreCredential(await indy.wallet.get(), null, schoolIdRequestMetadata, schoolIdCredential, schoolIdCredDef);
-        console.log("SchoolID: ", await indy.did.getSchoolIdCredDefId());
+        
     }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -249,7 +250,6 @@ async function issueIfisIdCredential() {
         await indy.issuer.sendSchema(await indy.pool.get(), stewardWallet, stewardDid, ifisIdSchema);
         ifisIdSchema = await indy.issuer.getSchema(ifisIdSchemaId);
     }
-    //worked
     await indy.issuer.createCredDef(ifisIdSchemaId, 'IFISID');
 
     console.log("IFISID: ", (await indy.issuer.getCredDefByTag("IFISID")).id);
@@ -277,7 +277,6 @@ async function issueSwhIdCredential() {
         await indy.issuer.sendSchema(await indy.pool.get(), stewardWallet, stewardDid, swhIdSchema);
         swhIdSchema = await indy.issuer.getSchema(swhIdSchemaId);
     }
-    //worked
     await indy.issuer.createCredDef(swhIdSchemaId, 'SWHID');
 
     console.log("IFISID: ", (await indy.issuer.getCredDefByTag("SWHID")).id);
@@ -287,8 +286,8 @@ async function issueSwhIdCredential() {
 exports.getPersonIdCredDefId = async function() {
     return await exports.getEndpointDidAttribute('PIDCredDefId');
 };
-exports.getSchoolIdCredDefId = async function() {
-    return await exports.getEndpointDidAttribute('SIDCredDefId');
+exports.getSchoolSchemaName = async function() {
+    return await exports.getEndpointDidAttribute('SIDSchemaName');
 };
 exports.getWhsIdCredDefId = async function() {
     return await exports.getEndpointDidAttribute('WHSCredDefId');

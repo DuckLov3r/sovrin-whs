@@ -37,11 +37,6 @@ router.post('/issuer/create_schema', auth.isLoggedIn, async function (req, res) 
 
 router.post('/issuer/create_cred_def', auth.isLoggedIn, async function (req, res) {
     await indy.issuer.createCredDef(req.body.schema_id, req.body.tag);
-    console.log("###########################################################");
-    console.log(req.body.schema_id);
-    console.log(req.body.tag);
-    console.log("###########################################################");
-
     res.redirect('/#issuing');
 });
 
@@ -51,27 +46,6 @@ router.post('/issuer/send_credential_offer', auth.isLoggedIn, async function (re
 });
 
 router.post('/issuer/send_transcript_credential_offer', auth.isLoggedIn, async function (req, res) {
-    
-   /*  try {
-        await indy.issuer.createSchema("WHS-ID", "1.0", "[\"name\", \"hochschule\", \"studiengang\", \"matrikelnummer\"]");  
-    } catch (e) {
-        console.warn('create schema failed with message: ' + e.message);
-        throw e;
-    } 
-    let credDef;
-    try {
-        let schemaId= "" + await indy.did.getEndpointDid() + ":2:WHS-ID:1.0";
-        await indy.issuer.createCredDef(schemaId, "WHS-Id");
-        credDef = await indy.issuer.getCredDefByTag("WHS-Id"); 
-        console.log("CredDef: ", credDef);  
-    } catch (e) {
-        console.warn('create CredDef failed with message: ' + e.message);
-        throw e;  
-    } finally {
-        console.log("req.body.their_relationship_did: ", req.body.their_relationship_did);
-        console.log("credDef.id: ", credDef.id);
-        await indy.credentials.sendOffer(req.body.their_relationship_did, credDef.id);
-    } */
     let credDef = await indy.issuer.getCredDefByTag('WID');
     await indy.credentials.sendOffer(req.body.their_relationship_did, credDef.id); 
     res.redirect('/#issuing');
