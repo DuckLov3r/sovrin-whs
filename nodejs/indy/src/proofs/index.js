@@ -31,8 +31,8 @@ exports.getProofRequests = async function(force) {
             },
             requested_predicates: {}
         },
-        proofRequests['School-ID'] = {
-            name: 'School-ID',
+        proofRequests['WHS-Request'] = {
+            name: 'WHS-Request',
             version: '1.0',
             requested_attributes: {
                 attr1_referent: {
@@ -47,8 +47,8 @@ exports.getProofRequests = async function(force) {
             requested_predicates: {}
         },
         
-        proofRequests['WHS-ID'] = {
-            name: 'WHS-ID',
+        proofRequests['IFIS-Request'] = {
+            name: 'IFIS-Request',
             version: '1.0',
             requested_attributes: {
                 attr1_referent: {
@@ -90,12 +90,15 @@ exports.getProofRequests = async function(force) {
                     name: 'arbeitgeber',
                     restrictions: [{'schema_name': 'IFIS-ID'}]
                 },
-                attr6_referent: {
-                    name: 'gehalt',
+            },
+            requested_predicates: {
+                predicate1_referent: {
+                    name: 'gehalt/monat',
+                    p_type: '>=',
+                    p_value: 350,
                     restrictions: [{'schema_name': 'IFIS-ID'}]
                 }
-            },
-            requested_predicates: {}
+            }
         };
         let transcriptCredDef = await indy.issuer.getCredDefByTag('MyTranscript');
         if(transcriptCredDef) {
@@ -139,7 +142,6 @@ exports.sendRequest = async function(myDid, theirDid, proofRequestId, otherProof
 
 /*
  * This function is currently oversimplified. It does not support:
-        * requested_predicates
         * self_attested_attributes
  * We are just selecting the first credential that fits, rather than letting the user select which they want to use. (indicated by [0] twice below)
  */
@@ -151,7 +153,9 @@ exports.prepareRequest = async function(message) {
     for(let attr of Object.keys(proofRequest.requested_attributes)) {
         credsForProof[`${credsForProofRequest['attrs'][attr][0]['cred_info']['referent']}`] = credsForProofRequest['attrs'][attr][0]['cred_info'];
     }
-
+    for(let attr of Object.keys(proofRequest.requested_predicates)) {
+        credsForProof[`${credsForProofRequest['predicates'][attr][0]['cred_info']['referent']}`] = credsForProofRequest['predicates'][attr][0]['cred_info'];
+    }
     let requestedCreds = {
         self_attested_attributes: {},
         requested_attributes: {},
@@ -164,7 +168,12 @@ exports.prepareRequest = async function(message) {
             revealed: true
         }
     }
-
+    for(let attr of Object.keys(proofRequest.requested_predicates)) {
+        requestedCreds.requested_predicates[attr] = {
+            cred_id: credsForProofRequest['predicates'][attr][0]['cred_info']['referent'],
+            //revealed: true
+        }
+    }
     return {
         origin: message.origin,
         type: message.type,
@@ -201,7 +210,9 @@ exports.validateAndStoreProof = async function(message) {
     if(proofRequest) {
         let [schemas, credDefs, revRegDefs, revRegs] = await indy.pool.verifierGetEntitiesFromLedger(proof.identifiers);
         delete proof.nonce;
-        if(true || await sdk.verifierVerifyProof(proofRequest, proof, schemas, credDefs, revRegDefs, revRegs)) { // FIXME: Verification is failing!  Figure out why, remove "true ||"
+        let verified = await sdk.verifierVerifyProof(proofRequest, proof, schemas, credDefs, revRegDefs, revRegs);
+        //console.log("VERIFIED: ", verified);
+        if(true || verified ) { // FIXME: Verification is failing!  Figure out why, remove "true ||". Only Alice is able to verify correctly.
             await indy.pairwise.addProof(message.origin, proof, proofRequest);
         } else {
             console.error('Proof validation failed!');

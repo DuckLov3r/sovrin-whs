@@ -30,7 +30,6 @@ services:
     build:
       context: .
     command: "bash -c 'npm start'"
-    # "bash -c 'node --inspect-brk=0.0.0.0:9229 ./bin/www'"
     environment:
       - PORT=3000
       - NAME=Alice White
@@ -90,8 +89,8 @@ services:
       - PORT=3002,
       - NAME=Westfälische Hochschule
       - GEBURTSTAG=01.11.1950
-      - GEBURTSORT=Ducktown
-      - ANSCHRIFT=quackstreet 1250
+      - GEBURTSORT=Gelsenkirchen
+      - ANSCHRIFT=Neidenburger Straße 125
       - PASSWORD=123
       - USERNAME=whs
       - PUBLIC_DID_ENDPOINT=173.17.0.170:3002

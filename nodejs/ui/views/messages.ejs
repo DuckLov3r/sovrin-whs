@@ -28,6 +28,9 @@
                             <%for(let attr of Object.keys(message.message.message.proofRequest.requested_attributes)) {%>
                                 <p><%=message.message.message.proofRequest.requested_attributes[attr].name%></p>
                             <%}%>
+                            <%for(let attr of Object.keys(message.message.message.proofRequest.requested_predicates)) {%>
+                                <p> ZKP of <%=message.message.message.proofRequest.requested_predicates[attr].name%></p>
+                            <%}%>
                         <%for(let link of message.links) {%>
                             <button class="w3-btn w3-white w3-border" type="submit" onclick="request('<%=link.href%>', '<%=link.method%>', '<%=link.message%>')"><%=link.name%></button>
                         <%}%>

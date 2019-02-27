@@ -52,7 +52,6 @@ exports.createEndpointDid = async function () {
     await issueWhsIdCredential();
     await issueIfisIdCredential();
     await issueSwhIdCredential();
-
 };
 
 exports.setEndpointDidAttribute = async function (attribute, item) {
@@ -61,7 +60,6 @@ exports.setEndpointDidAttribute = async function (attribute, item) {
     metadata[attribute] = item;
     await sdk.setDidMetadata(await indy.wallet.get(), endpointDid, JSON.stringify(metadata));
 };
-
 
 exports.pushEndpointDidAttribute = async function (attribute, item) {
     let metadata = await sdk.getDidMetadata(await indy.wallet.get(), endpointDid);
@@ -156,7 +154,7 @@ async function issuePersonIdCredential() {
     let res = await sdk.proverStoreCredential(await indy.wallet.get(), null, personIdRequestMetadata, personIdCredential, personIdCredDef);
     console.log("PersonID: ", await indy.did.getPersonIdCredDefId());
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////////
+
 async function issueSchoolIdCredential() {
     let schemaName = 'School-ID';
     let schemaVersion = '1.0';
@@ -164,7 +162,6 @@ async function issueSchoolIdCredential() {
     let schoolIdSchema;
     let schoolIdSchemaId = `${stewardDid}:2:${schemaName}:${schemaVersion}`;
     
-
     try {
         schoolIdSchema = await indy.issuer.getSchema(schoolIdSchemaId);
     } catch(e) {
@@ -202,7 +199,7 @@ async function issueSchoolIdCredential() {
         
     }
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 async function issueWhsIdCredential() {    
     let schemaName = 'WHS-ID';
     let schemaVersion = '1.0';
@@ -210,7 +207,6 @@ async function issueWhsIdCredential() {
     let whsIdSchema;
     let whsIdSchemaId = `${stewardDid}:2:${schemaName}:${schemaVersion}`;
     
-
     try {
         whsIdSchema = await indy.issuer.getSchema(whsIdSchemaId);
     } catch(e) {
@@ -223,13 +219,10 @@ async function issueWhsIdCredential() {
         await indy.issuer.sendSchema(await indy.pool.get(), stewardWallet, stewardDid, whsIdSchema);
         whsIdSchema = await indy.issuer.getSchema(whsIdSchemaId);
     }
-    //worked
     await indy.issuer.createCredDef(whsIdSchemaId, 'WID');
-
     console.log("WhsID: ", (await indy.issuer.getCredDefByTag("WID")).id);
-    
 }    
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 async function issueIfisIdCredential() {    
     let schemaName = 'IFIS-ID';
     let schemaVersion = '1.0';
@@ -237,25 +230,21 @@ async function issueIfisIdCredential() {
     let ifisIdSchema;
     let ifisIdSchemaId = `${stewardDid}:2:${schemaName}:${schemaVersion}`;
     
-
     try {
         ifisIdSchema = await indy.issuer.getSchema(ifisIdSchemaId);
     } catch(e) {
         [ifisIdSchemaId, ifisIdSchema] = await sdk.issuerCreateSchema(stewardDid, schemaName, schemaVersion, [
             'name',
             'arbeitgeber',
-            'gehalt',
+            'gehalt/monat',
             'vertragsart',
         ]);
         await indy.issuer.sendSchema(await indy.pool.get(), stewardWallet, stewardDid, ifisIdSchema);
         ifisIdSchema = await indy.issuer.getSchema(ifisIdSchemaId);
     }
     await indy.issuer.createCredDef(ifisIdSchemaId, 'IFISID');
-
     console.log("IFISID: ", (await indy.issuer.getCredDefByTag("IFISID")).id);
-    
 }    
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
 async function issueSwhIdCredential() {    
     let schemaName = 'Swh-ID';
@@ -264,25 +253,22 @@ async function issueSwhIdCredential() {
     let swhIdSchema;
     let swhIdSchemaId = `${stewardDid}:2:${schemaName}:${schemaVersion}`;
     
-
     try {
         swhIdSchema = await indy.issuer.getSchema(swhIdSchemaId);
     } catch(e) {
         [swhIdSchemaId, swhIdSchema] = await sdk.issuerCreateSchema(stewardDid, schemaName, schemaVersion, [
             'name',
             'zimmernummer',
-            'miete',
+            'miete/monat',
             'anschrift',
         ]);
         await indy.issuer.sendSchema(await indy.pool.get(), stewardWallet, stewardDid, swhIdSchema);
         swhIdSchema = await indy.issuer.getSchema(swhIdSchemaId);
     }
     await indy.issuer.createCredDef(swhIdSchemaId, 'SWHID');
-
     console.log("IFISID: ", (await indy.issuer.getCredDefByTag("SWHID")).id);
-    
 }    
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 exports.getPersonIdCredDefId = async function() {
     return await exports.getEndpointDidAttribute('PIDCredDefId');
 };

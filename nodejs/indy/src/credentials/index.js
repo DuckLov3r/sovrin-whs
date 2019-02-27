@@ -70,26 +70,11 @@ exports.acceptRequest = async function(theirDid, encryptedMessage) {
             case "matrikelnummer":
                 value = "203073123";
                 break;
-            case "degree":
-                value = "Bachelor of Science, Marketing";
-                break;
-            case "status":
-                value = "graduated";
-                break;
-            case "ssn":
-                value = "123-45-6789";
-                break;
-            case "year":
-                value = "2015";
-                break;
-            case "average":
-                value = "5";
-                break;
             case "arbeitgeber":
                 value = "Institut fuer Internetsicherheit";
                 break;
-            case "gehalt":
-                value = "450€/Monat";
+            case "gehalt/monat":
+                value = "450";
                 break;
             case "vertragsart":
                 value = "Studentische Hilfskraft";
@@ -97,8 +82,8 @@ exports.acceptRequest = async function(theirDid, encryptedMessage) {
             case "anschrift":
                 value = "Buerer Straße";
                 break;
-            case "miete":
-                value = "250€/Monat";
+            case "miete/monat":
+                value = "250";
                 break;
             case "zimmernummer":
                 value = "42";

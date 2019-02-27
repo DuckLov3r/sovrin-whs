@@ -43,10 +43,15 @@
                                         <%for(let attr of Object.keys(proof.request.requested_attributes)) {%>
                                             <p><%=proof.request.requested_attributes[attr].name%>: <%=proof.requested_proof.revealed_attrs[attr].raw%></p>
                                         <%}%>
+
+                                        <%for(let attr of Object.keys(proof.request.requested_predicates)) {%>
+                                           
+                                            <p><%=proof.request.requested_predicates[attr].name%>: greater then <%=proof.request.requested_predicates[attr].p_value%></p> 
+                                            
+                                        <%}%>
+
                                     </div>
-                                    <div class="w3-bar-item">
-                                        <button class="w3-btn w3-white w3-border" style="display:block;margin: 20px 20px;height: 100px;width:100px;" type="submit" onclick="validateProof(this.parentNode, <%=JSON.stringify(proof)%>)">Validate</button>
-                                    </div>
+                                    
                                 </div>
                                 <br><br>
                             <%}%>
