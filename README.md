@@ -1,10 +1,4 @@
-# Reference implementation of the indy-agent
+# Implementation of the indy-agent with university based uses cases
 
-This repository is focused on reference agents and associated tools.
-
-If you are interested in developing indy-sdk,
-please visit the [indy-sdk repository](https://github.com/hyperledger/indy-sdk/) and follow the getting started guide there.
-
-In order to run any of the reference implementations, you must have libindy built and have a running ledger.  If you are just trying it out, we recommend [running a ledger locally using docker](https://github.com/hyperledger/indy-sdk/blob/master/docs/ubuntu-build.md).
-
-See the README in each implementation directory for more specific details.
+Dieses Repository beinhaltet den praktischen Teil meiner Bachelorarbeit und behandelt die Implementierung von Sovrn in hochschulnahen Use Cases auf Basis des Reference Agent.
+Das Reporistory wurde auf VS Code als Entwicklungsumgebung angepasst und beinhaltet Einstellungen zum Debuggen.
